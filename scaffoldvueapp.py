@@ -49,9 +49,49 @@ def create_routing_file(target_dir):
     js = "//put routing in this file, uses page.js\n"
     js = js + "page('/', index)";
     target_file = target_dir + '/js/routing.js'
-
     print(colors.yellow | f'  Creating routing file: {target_file}')
     (echo[js] > target_file)()
+
+def create_app_file(target_dir):
+    echo = local['echo']
+    js = "var data = {\n"
+    js = js + "     title:'Hello World',\n"
+    js = js + "     body: 'Start putting the body of your app here!'\n"
+    js = js + "};\n"
+    js = js + "var vm = new Vue({\n"
+    js = js + "     el: 'head',\n"
+    js = js + "     data: data\n"
+    js = js + "});\n"
+    js = js + "var vm2 = new Vue({\n"
+    js = js + "     el: '#body',\n"
+    js = js + "     data: data\n"
+    js = js + "});\n"
+    target_file = target_dir + '/js/app.js'
+    print(colors.yellow | f'  Creating app file: {target_file}')
+    (echo[js] > target_file)()
+
+def create_index_file(target_dir):
+     echo = local['echo']
+     js = "<html>\n"
+     js = js + "     <head>\n"
+     js = js + "          <title>{{ title }}</title>\n"
+     js = js + "          <link rel='stylesheet' type='text/css' href='css/style.css'>\n"
+     js = js + "          <link rel='stylesheet' type='text/css' href='css/bootstrap.css'>\n"
+     js = js + "     </head>\n"
+     js = js + "     <body>\n"
+     js = js + "          <div id='body'>\n"
+     js = js + "               {{ body }}\n"
+     js = js + "          </div>\n"
+     js = js + "     </body>\n"
+     js = js + "     <script src='js/jquery.js'></script>\n"
+     js = js + "     <script src='js/bootstrap.js'></script>\n"
+     js = js + "     <script src='js/vue.js'></script>\n"
+     js = js + "     <script src='js/page.js'></script>\n"
+     js = js + "     <script src='js/app.js'></script>\n"
+     js = js + "</html>\n"
+     target_file = target_dir + '/index.html'
+     print(colors.yellow | f'  Creating html file: {target_file}')
+     (echo[js] > target_file)()
 
 def validate_directory_name(dir_name):
     return bool(re.match(('^[a-zA-Z0-9_\- .]+$'), dir_name))
@@ -70,6 +110,8 @@ if __name__ == '__main__':
                   print(colors.orchid | '[Ending directory creation!]')
                   print(colors.orchid | '[Starting file creation!]')
                   create_routing_file(sys.argv[1])
+                  create_app_file(sys.argv[1])
+                  create_index_file(sys.argv[1])
                   print(colors.orchid | '[Ending file creation!]')
              else:
                   show_directory_error_text(sys.argv[1])
