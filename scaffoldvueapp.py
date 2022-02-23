@@ -1,6 +1,7 @@
 from plumbum import local, colors
 import sys
 import re
+import os
 
 def show_directory_exists_error_text(dir_name):
     print(colors.orchid | '[Directory Name Already Exists Error]')
@@ -93,6 +94,35 @@ def create_index_file(target_dir):
      print(colors.yellow | f'  Creating html file: {target_file}')
      (echo[js] > target_file)()
 
+def install_npm_dependencies(dir_name):
+     os.chdir(dir_name)
+     npm = local['npm']['init', '-f']
+     print(colors.yellow | '  Creating node dependency file: requirements.txt')
+     print(colors.green | npm.run()[1])
+     bootstrap = local['npm']['install', 'bootstrap']
+     print(colors.yellow | '  Installing bootstrap. . .')
+     print(colors.green | bootstrap.run()[1])
+     page = local['npm']['install', 'page']
+     print(colors.yellow | '  Installing page. . . ')
+     print(colors.green | page.run()[1])
+     vue = local['npm']['install', 'vue']
+     print(colors.yellow | '  Installing vue. . .')
+     print(colors.green | vue.run()[1])
+
+def install_grunt(dir_name):
+     grunt = local['npm']['install', '--save-dev', 'grunt']
+     print(colors.yellow | '  Installing grunt. . .')
+     print(colors.green | grunt.run()[1])
+     grunt_concat = local['npm']['install', '--save-dev', 'grunt-contrib-concat']
+     print(colors.yellow | '  Installing grunt-contrib-concat. . .')
+     print(colors.green | grunt_concat.run()[1])
+     grunt_uglify = local['npm']['install', '--save-dev', 'grunt-contrib-uglify']
+     print(colors.yellow | '  Installing grunt-contrib-uglify. . .')
+     print(colors.green | grunt_uglify.run()[1])
+     grunt_copy = local['npm']['install', '--save-dev', 'grunt-contrib-copy']
+     print(colors.yellow | '  Installing grunt-contrib-copy. . .')
+     print(colors.green | grunt_copy.run()[1])
+
 def validate_directory_name(dir_name):
     return bool(re.match(('^[a-zA-Z0-9_\- .]+$'), dir_name))
 
@@ -113,5 +143,9 @@ if __name__ == '__main__':
                   create_app_file(sys.argv[1])
                   create_index_file(sys.argv[1])
                   print(colors.orchid | '[Ending file creation!]')
+                  print(colors.orchid | '[Starting NPM installations!]')
+                  install_npm_dependencies(sys.argv[1])
+                  install_grunt(sys.argv[1])
+                  print(colors.orchid | '[Ending NPM installations!]')
              else:
                   show_directory_error_text(sys.argv[1])
