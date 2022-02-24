@@ -37,7 +37,7 @@ def show_intro_text():
 
 def create_directories(parent_dir):
      mkdir = local['mkdir']
-     dirs_to_create =['js', 'css', 'assets', 'config', 'assets/videos', 'assets/images', 'assets/audio']
+     dirs_to_create =['js', 'css', 'assets', 'config', 'assets/videos', 'assets/images', 'assets/audio', 'dist']
      mkdir(parent_dir)
      print(colors.yellow | f'  Creating directory: {parent_dir}')
      for dir in dirs_to_create:
@@ -94,8 +94,7 @@ def create_index_file(target_dir):
      print(colors.yellow | f'  Creating html file: {target_file}')
      (echo[js] > target_file)()
 
-def install_npm_dependencies(dir_name):
-     os.chdir(dir_name)
+def install_npm_dependencies():
      npm = local['npm']['init', '-f']
      print(colors.yellow | '  Creating node dependency file: requirements.txt')
      print(colors.green | npm.run()[1])
@@ -109,7 +108,7 @@ def install_npm_dependencies(dir_name):
      print(colors.yellow | '  Installing vue. . .')
      print(colors.green | vue.run()[1])
 
-def install_grunt(dir_name):
+def install_grunt():
      grunt = local['npm']['install', '--save-dev', 'grunt']
      print(colors.yellow | '  Installing grunt. . .')
      print(colors.green | grunt.run()[1])
@@ -122,6 +121,35 @@ def install_grunt(dir_name):
      grunt_copy = local['npm']['install', '--save-dev', 'grunt-contrib-copy']
      print(colors.yellow | '  Installing grunt-contrib-copy. . .')
      print(colors.green | grunt_copy.run()[1])
+
+def copy_bootstrap_files():
+     bs_bootstrap_css = local['cp']['node_modules/bootstrap/dist/css/bootstrap.css', 'css']
+     print(colors.yellow, '  Copying bootstrap.css to css. . .')
+     print(colors.green | bs_bootstrap_css.run()[1])
+     bs_bootstrap_grid_css = local['cp']['node_modules/bootstrap/dist/css/bootstrap-grid.css', 'css']
+     print(colors.yellow, '  Copying bootstrap_grid_css to css. . .')
+     print(colors.green | bs_bootstrap_grid_css.run()[1])
+     bs_bootstrap_reboot_css = local['cp']['node_modules/bootstrap/dist/css/bootstrap-reboot.css', 'css']
+     print(colors.yellow, '  Copying bootstrap-reboot.css to css. . .')
+     print(colors.green | bs_bootstrap_reboot_css.run()[1])
+     bs_bootstrap_utilities_css = local['cp']['node_modules/bootstrap/dist/css/bootstrap-utilities.css', 'css']
+     print(colors.yellow, '  Copying bootstrap-utilities.css to css. . .')
+     print(colors.green | bs_bootstrap_utilities_css.run()[1])
+     bs_button_js = local['cp']['node_modules/bootstrap/js/dist/button.js', 'js']
+     print(colors.yellow | '  Copying bootstrap button.js to js. . .')
+     print(colors.green | bs_button_js.run()[1])
+     bs_collapse = local['cp']['node_modules/bootstrap/js/dist/collapse.js', 'js']
+     print(colors.yellow | '  Copying bootstrap collapse.js to js. . .')
+     print(colors.green | bs_collapse.run()[1])
+     bs_dropdown = local['cp']['node_modules/bootstrap/js/dist/dropdown.js', 'js']
+     print(colors.yellow | '  Copying bootstrap dropdown.js to js. . .')
+     print(colors.green | bs_dropdown.run()[1])
+     bs_popover = local['cp']['node_modules/bootstrap/js/dist/popover.js', 'js']
+     print(colors.yellow | '  Copying bootstrap popover.js to js. . .')
+     print(colors.green | bs_popover.run()[1])
+     bs_tooltip = local['cp']['node_modules/bootstrap/js/dist/tooltip.js', 'js']
+     print(colors.yellow | '  Copying bootstrap tooltip.js to js. . .')
+     print(colors.green | bs_tooltip.run()[1])
 
 def validate_directory_name(dir_name):
     return bool(re.match(('^[a-zA-Z0-9_\- .]+$'), dir_name))
@@ -144,8 +172,12 @@ if __name__ == '__main__':
                   create_index_file(sys.argv[1])
                   print(colors.orchid | '[Ending file creation!]')
                   print(colors.orchid | '[Starting NPM installations!]')
-                  install_npm_dependencies(sys.argv[1])
-                  install_grunt(sys.argv[1])
+                  os.chdir(sys.argv[1])
+                  install_npm_dependencies()
+                  install_grunt()
                   print(colors.orchid | '[Ending NPM installations!]')
+                  print(colors.orchid | '[Starting file relocation!]')
+                  copy_bootstrap_files()
+                  print(colors.orchid | '[Ending file relocations!]')
              else:
                   show_directory_error_text(sys.argv[1])
