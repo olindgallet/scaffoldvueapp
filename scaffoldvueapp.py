@@ -73,26 +73,33 @@ def create_app_file(target_dir):
 
 def create_index_file(target_dir):
      echo = local['echo']
-     js = "<html>\n"
-     js = js + "     <head>\n"
-     js = js + "          <title>{{ title }}</title>\n"
-     js = js + "          <link rel='stylesheet' type='text/css' href='css/style.css'>\n"
-     js = js + "          <link rel='stylesheet' type='text/css' href='css/bootstrap.css'>\n"
-     js = js + "     </head>\n"
-     js = js + "     <body>\n"
-     js = js + "          <div id='body'>\n"
-     js = js + "               {{ body }}\n"
-     js = js + "          </div>\n"
-     js = js + "     </body>\n"
-     js = js + "     <script src='js/jquery.js'></script>\n"
-     js = js + "     <script src='js/bootstrap.js'></script>\n"
-     js = js + "     <script src='js/vue.js'></script>\n"
-     js = js + "     <script src='js/page.js'></script>\n"
-     js = js + "     <script src='js/app.js'></script>\n"
-     js = js + "</html>\n"
+     html = "<html>\n"
+     html = html + "     <head>\n"
+     html = html + "          <title>{{ title }}</title>\n"
+     html = html + "          <link rel='stylesheet' type='text/css' href='css/style.css'>\n"
+     html = html + "          <link rel='stylesheet' type='text/css' href='css/bootstrap-reboot.css'>\n"
+     html = html + "          <link rel='stylesheet' type='text/css' href='css/bootstrap.css'>\n"
+     html = html + "          <link rel='stylesheet' type='text/css' href='css/bootstrap-grid.css'>\n"
+     html = html + "          <link rel='stylesheet' type='text/css' href='css/bootstrap-utilities.css'>\n"
+     html = html + "     </head>\n"
+     html = html + "     <body>\n"
+     html = html + "          <div id='body'>\n"
+     html = html + "               {{ body }}\n"
+     html = html + "          </div>\n"
+     html = html + "     </body>\n"
+     html = html + "     <script src='js/jquery.js'></script>\n"
+     html = html + "     <script src='js/button.js'></script>\n"
+     html = html + "     <script src='js/collapse.js'></script>\n"
+     html = html + "     <script src='js/dropdown.js'></script>\n"
+     html = html + "     <script src='js/popover.js'></script>\n"
+     html = html + "     <script src='js/tooltip.js'></script>\n"
+     html = html + "     <script src='js/vue.global.js'></script>\n"
+     html = html + "     <script src='js/page.js'></script>\n"
+     html = html + "     <script src='js/app.js'></script>\n"
+     html = html + "</html>\n"
      target_file = target_dir + '/index.html'
      print(colors.yellow | f'  Creating html file: {target_file}')
-     (echo[js] > target_file)()
+     (echo[html] > target_file)()
 
 def install_npm_dependencies():
      npm = local['npm']['init', '-f']
@@ -151,6 +158,11 @@ def copy_bootstrap_files():
      print(colors.yellow | '  Copying bootstrap tooltip.js to js. . .')
      print(colors.green | bs_tooltip.run()[1])
 
+def copy_vue_files():
+     vue_js = local['cp']['node_modules/vue/dist/vue.global.js', 'js']
+     print(colors.yellow, '  Copying vue.global.js to js. . .')
+     print(colors.green | vue_js.run()[1])
+
 def validate_directory_name(dir_name):
     return bool(re.match(('^[a-zA-Z0-9_\- .]+$'), dir_name))
 
@@ -178,6 +190,7 @@ if __name__ == '__main__':
                   print(colors.orchid | '[Ending NPM installations!]')
                   print(colors.orchid | '[Starting file relocation!]')
                   copy_bootstrap_files()
+                  copy_vue_files()
                   print(colors.orchid | '[Ending file relocations!]')
              else:
                   show_directory_error_text(sys.argv[1])
