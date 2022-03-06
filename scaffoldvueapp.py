@@ -3,19 +3,16 @@ import sys
 import re
 import os
 
-def show_directory_exists_error_text(dir_name):
-    print(colors.orchid | '[Directory Name Already Exists Error]')
-    print(colors.yellow | f'  Directory name \'{sys.argv[1]}\' already exists.')
-
-def show_directory_error_text(dir_name):
-    print(colors.orchid | '[Directory Name Error]')
-    print(colors.yellow | f'  Directory name \'{sys.argv[1]}\' cannot be used.')
+def show_directory_error_text():
+    print(colors.orchid | '[Directories Not Found Error]')
+    print(colors.yellow | '  Could not find necessary folders such as node_modules and assets.')
+    print(colors.yellow | '  Make sure you\'re executing this in the folder created by npm init vue@3.')
 
 def show_help_text():
-     print(colors.orchid | '[Syntax Error]')
-     print(colors.yellow | 'Usage: buildapp [projectname]')
-     print(colors.yellow | '  buildapp is used to start up a new app body with Vue.js, Page.js, and Bootstrap for designing and Bower and Grunt for productivity.')
-     print(colors.yellow | '  Shell script made by Olin Gallet September 2017, upgraded February 2022')
+     print(colors.orchid | '[Friendly Help Message]')
+     print(colors.yellow | 'Usage: python3 scaffoldvueapp.py')
+     print(colors.yellow | '  buildapp is used to start up a new app body with Vue.js and Bootstrap.')
+     print(colors.yellow | '  Shell script originally made by Olin Gallet September 2017, upgraded February 2022')
 
 def show_intro_text():
      print(colors.blue | '==*== Let\'s make a web app!  Scaffolding with vue.js, Bootstrap, and other goodies! ==*==')
@@ -35,85 +32,39 @@ def show_intro_text():
      print(colors.orchid | '⠀⠀⠀⢠⣴⣿⣿⣿⣿⣿⣦⣭⣷⣶⣿⣿⡿⠿⠟⠋⠁⠉⠛⠛⠿⠋⠁')
      print(colors.blue | '==*== Updated February 2022 <3 <3 <3 ==*==')
 
-def create_directories(parent_dir):
+def show_outro_text():
+     print(colors.blue | '==*== Scaffolding complete! ==*==')
+     print(colors.orchid | '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣴⣶⣀⣀⣶⣄')
+     print(colors.orchid | '⠀⠀⠀⠀⠀⠀⠀⢀⡠⣔⠮⠍⠛⠒⠒⠒⠚⠠⠽⣉⠙⠻⢿⣿⣿⣷')
+     print(colors.orchid | '⠀⠀⠀⠀⠀⣠⡂⠕⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠢⢀⡹⠛⠋⠑⡄')
+     print(colors.orchid | '⠀⣀⣀⣠⣼⠏⠀⠀⠀⠀⠀⠀⠀⠜⠑⣄⠀⠀⠀⠀⠀⠠⠊⠀⠀⠀⠀⣷')
+     print(colors.orchid | '⣿⣿⣿⣿⡏⠀⠀⠀⢸⠉⢆⠀⠀⢸⣀⣸⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⡏')
+     print(colors.orchid | '⣿⣿⣿⣿⠃⠀⠀⠀⠸⣄⣸⡆⠀⠈⢿⣿⣿⠀⣠⣴⣶⣶⡄⠀⢀⣤⣾⣇⣀⣀⡀')
+     print(colors.orchid | '⣿⣿⣿⣿⣦⣄⠀⠀⠀⢻⣿⣿⠀⠀⠈⠻⡿⠀⠘⠛⠛⠋⠁⠸⣿⣿⣿⣿⣿⣿⣿')
+     print(colors.orchid | '⣿⣿⡿⢿⣿⣿⣷⢀⣀⠀⠻⠿⢀⣴⣶⣶⡆⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿')
+     print(colors.orchid | '⣿⣿⣦⣤⠛⣿⣿⣿⡿⠃⠀⠀⠹⣿⣿⣿⠇⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿')
+     print(colors.orchid | '⣿⣿⣿⣿⣦⡈⣿⣿⠇⠀⠀⠀⠀⠀⠉⠉⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿')
+     print(colors.orchid | '⣿⣿⣿⣿⣿⣿⣿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃')
+     print(colors.orchid | '⠉⠻⣿⣿⣿⣿⣿⣶⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃')
+     print(colors.orchid | '⠀⠀⠀⠀⠛⢿⣿⣿⣿⣷⢦⣄⣀⡀⠤⣤⣤⣀⣀⣬⣿⣿⣿⣿⣿⣿⣿⠟⠁')
+     print(colors.orchid | '⠀⠀⠀⢠⣴⣿⣿⣿⣿⣿⣦⣭⣷⣶⣿⣿⡿⠿⠟⠋⠁⠉⠛⠛⠿⠋⠁')
+     print(colors.blue | '==*== Remember to use "npm run" to see options to run scripts! ==*==')
+
+def create_directories():
      mkdir = local['mkdir']
-     dirs_to_create =['js', 'css', 'assets', 'config', 'assets/videos', 'assets/images', 'assets/audio', 'dist']
-     mkdir(parent_dir)
-     print(colors.yellow | f'  Creating directory: {parent_dir}')
+     dirs_to_create =['src'+os.path.sep+'assets'+os.path.sep+'js',
+                      'src'+os.path.sep+'assets'+os.path.sep+'css',
+                      'src'+os.path.sep+'assets'+os.path.sep+'videos',
+                      'src'+os.path.sep+'assets'+os.path.sep+'images',
+                      'src'+os.path.sep+'assets'+os.path.sep+'audio']
      for dir in dirs_to_create:
-         to_create = parent_dir + '/' + dir
-         mkdir(to_create)
-         print(colors.yellow | f'  Creating directory: {to_create}')
-
-def create_routing_file(target_dir):
-    echo = local['echo']
-    js = "//put routing in this file, uses page.js\n"
-    js = js + "page('/', index)";
-    target_file = target_dir + '/js/routing.js'
-    print(colors.yellow | f'  Creating routing file: {target_file}')
-    (echo[js] > target_file)()
-
-def create_app_file(target_dir):
-    echo = local['echo']
-    js = "var data = {\n"
-    js = js + "     title:'Hello World',\n"
-    js = js + "     body: 'Start putting the body of your app here!'\n"
-    js = js + "};\n"
-    js = js + "var vm = new Vue({\n"
-    js = js + "     el: 'head',\n"
-    js = js + "     data: data\n"
-    js = js + "});\n"
-    js = js + "var vm2 = new Vue({\n"
-    js = js + "     el: '#body',\n"
-    js = js + "     data: data\n"
-    js = js + "});\n"
-    target_file = target_dir + '/js/app.js'
-    print(colors.yellow | f'  Creating app file: {target_file}')
-    (echo[js] > target_file)()
-
-def create_index_file(target_dir):
-     echo = local['echo']
-     html = "<html>\n"
-     html = html + "     <head>\n"
-     html = html + "          <title>{{ title }}</title>\n"
-     html = html + "          <link rel='stylesheet' type='text/css' href='css/style.css'>\n"
-     html = html + "          <link rel='stylesheet' type='text/css' href='css/bootstrap-reboot.css'>\n"
-     html = html + "          <link rel='stylesheet' type='text/css' href='css/bootstrap.css'>\n"
-     html = html + "          <link rel='stylesheet' type='text/css' href='css/bootstrap-grid.css'>\n"
-     html = html + "          <link rel='stylesheet' type='text/css' href='css/bootstrap-utilities.css'>\n"
-     html = html + "     </head>\n"
-     html = html + "     <body>\n"
-     html = html + "          <div id='body'>\n"
-     html = html + "               {{ body }}\n"
-     html = html + "          </div>\n"
-     html = html + "     </body>\n"
-     html = html + "     <script src='js/jquery.js'></script>\n"
-     html = html + "     <script src='js/button.js'></script>\n"
-     html = html + "     <script src='js/collapse.js'></script>\n"
-     html = html + "     <script src='js/dropdown.js'></script>\n"
-     html = html + "     <script src='js/popover.js'></script>\n"
-     html = html + "     <script src='js/tooltip.js'></script>\n"
-     html = html + "     <script src='js/vue.global.js'></script>\n"
-     html = html + "     <script src='js/page.js'></script>\n"
-     html = html + "     <script src='js/app.js'></script>\n"
-     html = html + "</html>\n"
-     target_file = target_dir + '/index.html'
-     print(colors.yellow | f'  Creating html file: {target_file}')
-     (echo[html] > target_file)()
+         print(colors.yellow | f'  Creating directory: {dir}')
+         mkdir(dir)
 
 def install_npm_dependencies():
-     npm = local['npm']['init', '-f']
-     print(colors.yellow | '  Creating node dependency file: requirements.txt')
-     print(colors.green | npm.run()[1])
-     bootstrap = local['npm']['install', 'bootstrap']
+     bootstrap = local['npm']['install', 'bootstrap', '--save-prod']
      print(colors.yellow | '  Installing bootstrap. . .')
      print(colors.green | bootstrap.run()[1])
-     page = local['npm']['install', 'page']
-     print(colors.yellow | '  Installing page. . . ')
-     print(colors.green | page.run()[1])
-     vue = local['npm']['install', 'vue']
-     print(colors.yellow | '  Installing vue. . .')
-     print(colors.green | vue.run()[1])
 
 def install_grunt():
      grunt = local['npm']['install', '--save-dev', 'grunt']
@@ -130,67 +81,53 @@ def install_grunt():
      print(colors.green | grunt_copy.run()[1])
 
 def copy_bootstrap_files():
-     bs_bootstrap_css = local['cp']['node_modules/bootstrap/dist/css/bootstrap.css', 'css']
+     bs_css_srcdir = 'node_modules'+os.path.sep+'bootstrap'+os.path.sep+'dist'+os.path.sep+'css'
+     bs_css_targetdir = 'src'+os.path.sep+'assets'+os.path.sep+'css'
+     bs_js_srcdir = 'node_modules'+os.path.sep+'bootstrap'+os.path.sep+'js'+os.path.sep+'dist'
+     bs_js_targetdir = 'src'+os.path.sep+'assets'+os.path.sep+'js'
+     bs_bootstrap_css = local['cp'][bs_css_srcdir+os.path.sep+'bootstrap.css', bs_css_targetdir]
      print(colors.yellow, '  Copying bootstrap.css to css. . .')
      print(colors.green | bs_bootstrap_css.run()[1])
-     bs_bootstrap_grid_css = local['cp']['node_modules/bootstrap/dist/css/bootstrap-grid.css', 'css']
+     bs_bootstrap_grid_css = local['cp'][bs_css_srcdir+os.path.sep+'bootstrap-grid.css',bs_css_targetdir]
      print(colors.yellow, '  Copying bootstrap_grid_css to css. . .')
      print(colors.green | bs_bootstrap_grid_css.run()[1])
-     bs_bootstrap_reboot_css = local['cp']['node_modules/bootstrap/dist/css/bootstrap-reboot.css', 'css']
+     bs_bootstrap_reboot_css = local['cp'][bs_css_srcdir+os.path.sep+'bootstrap-reboot.css',bs_css_targetdir]
      print(colors.yellow, '  Copying bootstrap-reboot.css to css. . .')
      print(colors.green | bs_bootstrap_reboot_css.run()[1])
-     bs_bootstrap_utilities_css = local['cp']['node_modules/bootstrap/dist/css/bootstrap-utilities.css', 'css']
+     bs_bootstrap_utilities_css = local['cp'][bs_css_srcdir+os.path.sep+'bootstrap-utilities.css', bs_css_targetdir]
      print(colors.yellow, '  Copying bootstrap-utilities.css to css. . .')
      print(colors.green | bs_bootstrap_utilities_css.run()[1])
-     bs_button_js = local['cp']['node_modules/bootstrap/js/dist/button.js', 'js']
+     bs_button_js = local['cp'][bs_js_srcdir+os.path.sep+'button.js', bs_js_targetdir]
      print(colors.yellow | '  Copying bootstrap button.js to js. . .')
      print(colors.green | bs_button_js.run()[1])
-     bs_collapse = local['cp']['node_modules/bootstrap/js/dist/collapse.js', 'js']
+     bs_collapse = local['cp'][bs_js_srcdir+os.path.sep+'collapse.js', bs_js_targetdir]
      print(colors.yellow | '  Copying bootstrap collapse.js to js. . .')
      print(colors.green | bs_collapse.run()[1])
-     bs_dropdown = local['cp']['node_modules/bootstrap/js/dist/dropdown.js', 'js']
+     bs_dropdown = local['cp'][bs_js_srcdir+os.path.sep+'dropdown.js', bs_js_targetdir]
      print(colors.yellow | '  Copying bootstrap dropdown.js to js. . .')
      print(colors.green | bs_dropdown.run()[1])
-     bs_popover = local['cp']['node_modules/bootstrap/js/dist/popover.js', 'js']
+     bs_popover = local['cp'][bs_js_srcdir+os.path.sep+'popover.js', bs_js_targetdir]
      print(colors.yellow | '  Copying bootstrap popover.js to js. . .')
      print(colors.green | bs_popover.run()[1])
-     bs_tooltip = local['cp']['node_modules/bootstrap/js/dist/tooltip.js', 'js']
+     bs_tooltip = local['cp'][bs_js_srcdir+os.path.sep+'tooltip.js', bs_js_targetdir]
      print(colors.yellow | '  Copying bootstrap tooltip.js to js. . .')
      print(colors.green | bs_tooltip.run()[1])
 
-def copy_vue_files():
-     vue_js = local['cp']['node_modules/vue/dist/vue.global.js', 'js']
-     print(colors.yellow, '  Copying vue.global.js to js. . .')
-     print(colors.green | vue_js.run()[1])
-
-def validate_directory_name(dir_name):
-    return bool(re.match(('^[a-zA-Z0-9_\- .]+$'), dir_name))
-
 if __name__ == '__main__':
-     if len(sys.argv) != 2:
+     if len(sys.argv) > 1:
           show_help_text()
+     elif not os.path.isdir('node_modules') or not os.path.isdir('src'+os.path.sep+'assets'):
+          show_directory_error_text()
      else:
-         if local.path(sys.argv[1]).exists() and local.path(sys.argv[1]).is_dir():
-              show_directory_exists_error_text(sys.argv[1])
-         else:
-             if validate_directory_name(sys.argv[1]):
-                  show_intro_text()
-                  print(colors.orchid | '[Starting directory creation!]')
-                  create_directories(sys.argv[1])
-                  print(colors.orchid | '[Ending directory creation!]')
-                  print(colors.orchid | '[Starting file creation!]')
-                  create_routing_file(sys.argv[1])
-                  create_app_file(sys.argv[1])
-                  create_index_file(sys.argv[1])
-                  print(colors.orchid | '[Ending file creation!]')
-                  print(colors.orchid | '[Starting NPM installations!]')
-                  os.chdir(sys.argv[1])
-                  install_npm_dependencies()
-                  install_grunt()
-                  print(colors.orchid | '[Ending NPM installations!]')
-                  print(colors.orchid | '[Starting file relocation!]')
-                  copy_bootstrap_files()
-                  copy_vue_files()
-                  print(colors.orchid | '[Ending file relocations!]')
-             else:
-                  show_directory_error_text(sys.argv[1])
+          show_intro_text()
+          print(colors.orchid | '[Starting directory creation!]')
+          create_directories()
+          print(colors.orchid | '[Ending directory creation!]')
+          print(colors.orchid | '[Starting npm dependency installation!]')
+          install_npm_dependencies();
+          install_grunt();
+          print(colors.orchid | '[Ending npm dependency installation!]')
+          print(colors.orchid | '[Starting file copying!]')
+          copy_bootstrap_files();
+          print(colors.orchid | '[Ending file copying!]')
+          show_outro_text()
