@@ -8,8 +8,9 @@ In addition, I wanted to try using the plumbum library for Python.
 
 1.  Download `scaffoldvueapp.py`.
 2.  Open a terminal then navigate to where the file was downloaded.
-3.  Run `sudo mv scaffoldvueapp.py /usr/bin/`.  This moves the script into the usr/bin/ folder so that users can use the script from the command line.
-4.  Verify that the file has moved by typing `python3 scaffoldvueapp.py help`.  If successful, then the script will run and display some help text.
+3.  Run `chmod +x scaffoldvueapp.py` to make the file executable.
+4.  Run `sudo mv scaffoldvueapp.py /usr/bin/scaffoldvueapp`.  This moves the script into the `/usr/bin/` folder so that users can use the script from the command line.  If you want to install it for only the local user, use `/usr/local/bin` instead.
+5.  Verify that the file has moved by typing `scaffoldvueapp help`.  If successful, then the script will run and display some help text.
 
 # Using scaffoldvueapp.py
 
@@ -17,4 +18,4 @@ In addition, I wanted to try using the plumbum library for Python.
 2.  Run `npm init vue@3` and follow the prompts.  This will create a directory for your Vue app.
 3.  Run `cd <project-name>` to change directory into the app.
 4.  Run `npm install` to download requisite files for the Vue app.
-5.  Run `python3 scaffoldvueapp.py`.
+5.  Run `scaffoldvueapp`.
