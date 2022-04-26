@@ -2,7 +2,7 @@
 
 `scaffoldvueapp.py` is a script for creating file folders (images, video, etc.) and downloading commonly used files for web apps.  For my use case this is Bootstrap and Grunt.
 
-In addition, I wanted to try using the plumbum library for Python.
+In addition, I wanted to try using the plumbum library for Python.  In the future I want to continue making scripts for Linux to make tasks easier.
 
 # Installing scaffoldvueapp.py in Linux
 
