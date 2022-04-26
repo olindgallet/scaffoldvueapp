@@ -1,5 +1,20 @@
-Will work on documentation at a later date as this is a straight conversion of
-a script.
+# About scaffoldvueapp.py
 
-Just got done: Modulating code into functions and starting to add script generation.
-TODO: Add more code to make script files.
+`scaffoldvueapp.py` is a script for creating file folders (images, video, etc.) and downloading commonly used files for web apps.  For my use case this is Bootstrap and Grunt.
+
+In addition, I wanted to try using the plumbum library for Python.
+
+# Installing scaffoldvueapp.py in Linux
+
+1.  Download `scaffoldvueapp.py`.
+2.  Open a terminal then navigate to where the file was downloaded.
+3.  Run `sudo mv scaffoldvueapp.py /usr/bin/`.  This moves the script into the usr/bin/ folder so that users can use the script from the command line.
+4.  Verify that the file has moved by typing `python3 scaffoldvueapp.py help`.  If successful, then the script will run and display some help text.
+
+# Using scaffoldvueapp.py
+
+1.  Open a terminal and navigate to your work folder.
+2.  Run `npm init vue@3` and follow the prompts.  This will create a directory for your Vue app.
+3.  Run `cd <project-name>` to change directory into the app.
+4.  Run `npm install` to download requisite files for the Vue app.
+5.  Run `python3 scaffoldvueapp.py`.
