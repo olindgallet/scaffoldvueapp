@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from plumbum import local, colors
 import sys
 import re
