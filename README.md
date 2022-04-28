@@ -7,7 +7,7 @@ In addition, I wanted to try using the plumbum library for Python.  In the futur
 # Installing scaffoldvueapp.py in Linux
 
 1.  Open a terminal then navigate to your download folder.
-2.  Run `wget https://github.com/olindgallet/scaffoldvueapp/blob/master/scaffoldvueapp.py` to download the file.
+2.  Run `wget https://raw.githubusercontent.com/olindgallet/scaffoldvueapp/master/scaffoldvueapp.py` to download the file.
 3.  Run `chmod +x scaffoldvueapp.py` to make the file executable.
 4.  Run `sudo mv scaffoldvueapp.py /usr/bin/scaffoldvueapp`.  This moves the script into the `/usr/bin/` folder so that users can use the script from the command line.  If you want to install it for only the local user, use `/usr/local/bin` instead.
 5.  Verify that the file has moved by typing `scaffoldvueapp help`.  If successful, then the script will run and display some help text.
